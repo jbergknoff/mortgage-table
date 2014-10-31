@@ -7,39 +7,70 @@
 	<script type="text/javascript">
 	window.addEventListener("load", function() { ko.applyBindings(new model()); });
 	</script>
+
+	<style type="text/css">
+	.margin-bottom { margin-bottom: 0.5em; }
+	.text-large { font-size: 1.3em; }
+	</style>
 </head>
 
 <body>
 
-<div class="container-fluid">
-	<div class="row" style="border-bottom: 1px solid black">
+<div class="container-fluid text-center">
+	<div class="row margin-bottom text-large">
 		<div class="col-md-2"><strong>Sale price</strong></div>
-		<div class="col-md-2"><strong>Down payment</strong></div>
-		<div class="col-md-2"><strong>Interest rate</strong></div>
-		<div class="col-md-2"><strong>Loan length</strong></div>
-		<div class="col-md-4"><strong>Payment</strong></div>
+		<div class="col-md-2"><strong>Down Payment</strong></div>
+		<div class="col-md-2"><strong>Interest Rate</strong></div>
+		<div class="col-md-2"><strong>Loan Length</strong></div>
+		<div class="col-md-3"><strong>Payment</strong></div>
 	</div>
 
 	<div class="row">
 		<form data-bind="submit: commit">
-		<div class="col-md-2"><input type="text" data-bind="textInput: current.sale_price"></div>
-		<div class="col-md-2"><input type="text" data-bind="textInput: current.down_payment_percent"></div>
-		<div class="col-md-2"><input type="text" data-bind="textInput: current.interest_rate"></div>
-		<div class="col-md-2"><input type="text" data-bind="textInput: current.number_payments"></div>
-		<div class="col-md-4">
-			<span data-bind="text: current.payment"></span>
-			<button type="submit">add</button>
+		<div class="col-md-2">
+			<span>$</span>
+			<input type="text" size="10" data-bind="textInput: current.sale_price, click_select: true">
 		</div>
+		<div class="col-md-2">
+			<input type="text" size="2" data-bind="textInput: current.down_payment_percent, click_select: true">
+			<span>%</span>
+		</div>
+		<div class="col-md-2">
+			<input type="text" size="4" data-bind="textInput: current.interest_rate, click_select: true">
+			<span>%</span>
+		</div>
+		<div class="col-md-2">
+			<select data-bind="value: current.number_payments">
+				<option value="180">15 years</option>
+				<option value="360">30 years</option>
+			</select>
+		</div>
+		<div class="col-md-3" data-bind="text: current.payment"></div>
+		<div class="col-md-1"><button type="submit">add</button></div>
 		</form>
 	</div>
 
+	<hr>
+
 	<span data-bind="foreach: computations">
 		<div class="row">
-			<div class="col-md-2" data-bind="text: sale_price"></div>
-			<div class="col-md-2" data-bind="text: down_payment_percent"></div>
-			<div class="col-md-2" data-bind="text: interest_rate"></div>
-			<div class="col-md-2" data-bind="text: number_payments"></div>
-			<div class="col-md-4" data-bind="text: payment"></div>
+			<div class="col-md-2">
+				<span>$</span>
+				<span data-bind="text: sale_price"></span>
+			</div>
+			<div class="col-md-2">
+				<span data-bind="text: down_payment_percent"></span>
+				<span>%</span>
+			</div>
+			<div class="col-md-2">
+				<span data-bind="text: interest_rate"></span>
+				<span>%</span>
+			</div>
+			<div class="col-md-2" data-bind="text: (number_payments() / 12) + ' years'"></div>
+			<div class="col-md-3" data-bind="text: payment"></div>
+			<div class="col-md-1">
+				<button type="button" class="close" style="float: none" data-bind="click: $parent.remove">&times;</button>
+			</div>
 		</div>
 	</span>
 </div>

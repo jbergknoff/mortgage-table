@@ -9,16 +9,21 @@ function model()
 		var current = self.current.export();
 		self.computations.push(new computation_model(current));
 		self.current = new computation_model(current);
-	}
+	};
+
+	self.remove = function(computation)
+	{
+		self.computations.remove(computation);
+	};
 }
 
 function computation_model(data)
 {
 	data = data || {};
 	var self = this;
-	self.sale_price = ko.observable(data.sale_price || 0);
-	self.down_payment_percent = ko.observable(data.down_payment_percent || 0);
-	self.interest_rate = ko.observable(data.interest_rate || 0);
+	self.sale_price = ko.observable(data.sale_price || 300000);
+	self.down_payment_percent = ko.observable(data.down_payment_percent || 20);
+	self.interest_rate = ko.observable(data.interest_rate || 5.00);
 	self.number_payments = ko.observable(data.number_payments || 360);
 
 	self.down_payment_amount = ko.computed
@@ -37,7 +42,8 @@ function computation_model(data)
 		{
 			var interest_rate = 1 + self.interest_rate() / 100 / 12;
 			var factor = 1 + 1 / (Math.pow(interest_rate, self.number_payments()) - 1);
-			return self.principal() * (interest_rate - 1) * factor || 0;
+			var payment = self.principal() * (interest_rate - 1) * factor || 0;
+			return payment.toFixed(2);
 		}
 	);
 
@@ -51,3 +57,11 @@ function computation_model(data)
 		return data;
 	}
 }
+
+ko.bindingHandlers.click_select =
+{
+	"init": function(element)
+	{
+		element.addEventListener("click", function() { element.select(); });
+	}
+};
