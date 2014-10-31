@@ -62,6 +62,6 @@ ko.bindingHandlers.click_select =
 {
 	"init": function(element)
 	{
-		element.addEventListener("click", function() { element.select(); });
+		element.addEventListener("click", element.select);
 	}
 };
