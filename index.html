@@ -5,11 +5,44 @@
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 	<script type="text/javascript" src="model.js"></script>
 	<script type="text/javascript">
-	window.addEventListener("load", function() { ko.applyBindings(new Model()); });
+	window.addEventListener("load", function() { ko.applyBindings(new model()); });
 	</script>
 </head>
 
 <body>
-<div data-bind="text: 'hello'"></div>
+
+<div class="container-fluid">
+	<div class="row" style="border-bottom: 1px solid black">
+		<div class="col-md-2"><strong>Sale price</strong></div>
+		<div class="col-md-2"><strong>Down payment</strong></div>
+		<div class="col-md-2"><strong>Interest rate</strong></div>
+		<div class="col-md-2"><strong>Loan length</strong></div>
+		<div class="col-md-4"><strong>Payment</strong></div>
+	</div>
+
+	<div class="row">
+		<form data-bind="submit: commit">
+		<div class="col-md-2"><input type="text" data-bind="textInput: current.sale_price"></div>
+		<div class="col-md-2"><input type="text" data-bind="textInput: current.down_payment_percent"></div>
+		<div class="col-md-2"><input type="text" data-bind="textInput: current.interest_rate"></div>
+		<div class="col-md-2"><input type="text" data-bind="textInput: current.number_payments"></div>
+		<div class="col-md-4">
+			<span data-bind="text: current.payment"></span>
+			<button type="submit">add</button>
+		</div>
+		</form>
+	</div>
+
+	<span data-bind="foreach: computations">
+		<div class="row">
+			<div class="col-md-2" data-bind="text: sale_price"></div>
+			<div class="col-md-2" data-bind="text: down_payment_percent"></div>
+			<div class="col-md-2" data-bind="text: interest_rate"></div>
+			<div class="col-md-2" data-bind="text: number_payments"></div>
+			<div class="col-md-4" data-bind="text: payment"></div>
+		</div>
+	</span>
+</div>
+
 </body>
 </html>
