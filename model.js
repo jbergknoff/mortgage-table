@@ -1,14 +1,14 @@
 function model()
 {
 	var self = this;
-	self.current = new computation_model();
+	self.current = ko.observable(new computation_model());
 	self.computations = ko.observableArray();
 
 	self.commit = function()
 	{
-		var current = self.current.export();
+		var current = self.current().export();
 		self.computations.push(new computation_model(current));
-		self.current = new computation_model(current);
+		self.current(new computation_model(current));
 	};
 
 	self.remove = function(computation)
