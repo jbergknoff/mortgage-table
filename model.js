@@ -15,6 +15,51 @@ function model()
 	{
 		self.computations.remove(computation);
 	};
+
+	self.csv = ko.computed
+	(
+		function()
+		{
+			var csv = [];
+			var columns =
+			[
+				"Sale Price ($)",
+				"Down Payment (%)",
+				"Down Payment ($)",
+				"Principal ($)",
+				"Interest Rate (%)",
+				"Loan Length (Months)",
+				"Monthly Payment ($)",
+				"Total To Pay ($)"
+			];
+
+			csv.push(columns.join(","));
+			csv = csv.concat
+			(
+				self.computations().map
+				(
+					function(c)
+					{
+						var values =
+						[
+							c.sale_price(),
+							c.down_payment_percent(),
+							c.down_payment_amount(),
+							c.principal(),
+							c.interest_rate(),
+							c.number_payments(),
+							c.payment(),
+							c.total_to_pay()
+						];
+
+						return values.join(",");
+					}
+				)
+			);
+
+			return "data:application/csv;charset=utf-8," + encodeURIComponent(csv.join("\n"));
+		}
+	);
 }
 
 function computation_model(data)
