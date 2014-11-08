@@ -43,7 +43,15 @@ function computation_model(data)
 			var interest_rate = 1 + self.interest_rate() / 100 / 12;
 			var factor = 1 + 1 / (Math.pow(interest_rate, self.number_payments()) - 1);
 			var payment = self.principal() * (interest_rate - 1) * factor || 0;
-			return payment.toFixed(2);
+			return payment;
+		}
+	);
+
+	self.total_to_pay = ko.computed
+	(
+		function()
+		{
+			return self.payment() * self.number_payments();
 		}
 	);
 

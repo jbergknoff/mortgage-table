@@ -12,19 +12,20 @@
 	.font-normal { font-weight: normal; }
 	.margin-bottom { margin-bottom: 0.5em; }
 	.text-large { font-size: 1.3em; }
+	.less-margin-right { margin-right: -0.2em; }
 	</style>
 </head>
 
 <body>
 
 <form data-bind="submit: commit">
-<table class="table">
+<table class="table table-striped table-responsive">
 	<thead>
 		<tr>
 			<th>
 				<div>Sale price</div>
 				<div class="font-normal">
-					<span>$</span>
+					<span class="less-margin-right">$</span>
 					<input type="text" size="10" autofocus data-bind="textInput: current().sale_price, click_select: true">
 				</div>
 			</th>
@@ -33,8 +34,15 @@
 				<div class="font-normal">
 					<input type="text" size="2" data-bind="textInput: current().down_payment_percent, click_select: true">
 					<span>%</span>
-					<span> = $</span>
-					<span data-bind="text: current().down_payment_amount"></span>
+					<span class="less-margin-right"> = $</span>
+					<span data-bind="text: current().down_payment_amount().toFixed(0)"></span>
+				</div>
+			</th>
+			<th>
+				<div>Principal</div>
+				<div class="font-normal">
+					<span class="less-margin-right">$</span>
+					<span data-bind="text: current().principal().toFixed(0)"></span>
 				</div>
 			</th>
 			<th>
@@ -55,7 +63,17 @@
 			</th>
 			<th>
 				<div>Payment</div>
-				<div class="font-normal" data-bind="text: current().payment"></div>
+				<div class="font-normal">
+					<span class="less-margin-right">$</span>
+					<span data-bind="text: current().payment().toFixed(2)"></span>
+				</div>
+			</th>
+			<th>
+				<div>Total To Pay</div>
+				<div class="font-normal">
+					<span class="less-margin-right">$</span>
+					<span data-bind="text: current().total_to_pay().toFixed(0)"></span>
+				</div>
 			</th>
 			<th>
 				<div class="font-normal">
@@ -69,19 +87,32 @@
 		<!-- ko foreach: computations -->
 		<tr>
 			<td>
-				<span>$</span>
+				<span class="less-margin-right">$</span>
 				<span data-bind="text: sale_price"></span>
 			</td>
 			<td>
-				<span data-bind="text: down_payment_percent"></span>
+				<span class="less-margin-right" data-bind="text: down_payment_percent"></span>
 				<span>%</span>
+				<span class="less-margin-right"> = $</span>
+				<span data-bind="text: down_payment_amount().toFixed(0)"></span>
 			</td>
 			<td>
-				<span data-bind="text: interest_rate"></span>
+				<span class="less-margin-right">$</span>
+				<span data-bind="text: principal().toFixed(0)"></span>
+			</td>
+			<td>
+				<span class="less-margin-right" data-bind="text: interest_rate"></span>
 				<span>%</span>
 			</td>
 			<td data-bind="text: (number_payments() / 12) + ' years'"></td>
-			<td data-bind="text: payment"></td>
+			<td>
+				<span class="less-margin-right">$</span>
+				<span data-bind="text: payment().toFixed(2)"></span>
+			</td>
+			<td>
+				<span class="less-margin-right">$</span>
+				<span data-bind="text: total_to_pay().toFixed(0)"></span>
+			</td>
 			<td>
 				<button type="button" class="close" style="float: none" data-bind="click: $parent.remove">&times;</button>
 			</td>
